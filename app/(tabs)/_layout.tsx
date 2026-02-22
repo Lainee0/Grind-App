@@ -2,16 +2,21 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Tabs } from 'expo-router';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 function CustomHeader({ title }: { title: string }) {
   return (
     <LinearGradient
-      colors={['#667eea', '#764ba2']}
+      colors={['#0a0a0a', '#1a1a1a']}
       style={styles.header}
     >
-      <Text style={styles.headerTitle}>{title}</Text>
+      <View style={styles.headerContent}>
+        <LinearGradient colors={['#00ff88', '#00cc66']} style={styles.headerIcon}>
+          <MaterialIcons name="fitness-center" size={20} color="#0a0a0a" />
+        </LinearGradient>
+        <Text style={styles.headerTitle}>{title}</Text>
+      </View>
     </LinearGradient>
   );
 }
@@ -37,25 +42,28 @@ export default function TabsLayout() {
 
           return <MaterialIcons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#667eea',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: '#00ff88',
+        tabBarInactiveTintColor: '#666',
         tabBarStyle: {
           paddingBottom: 5,
           paddingTop: 5,
           height: 60,
-          backgroundColor: '#fff',
+          backgroundColor: '#0a0a0a',
           borderTopWidth: 1,
-          borderTopColor: '#e0e0e0',
+          borderTopColor: '#00ff88',
+          elevation: 0,
+          shadowOpacity: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '500',
+          fontSize: 11,
+          fontWeight: '700',
+          letterSpacing: 0.5,
         },
         header: ({ options }) => {
           const title = options.title || 
-            (route.name === 'index' ? 'Home' : 
-             route.name === 'chat' ? 'Chat' :
-             route.name === 'exercises' ? 'Exercises' : 'Progress');
+            (route.name === 'index' ? 'HOME' : 
+             route.name === 'chat' ? 'COACH' :
+             route.name === 'exercises' ? 'EXERCISES' : 'PROGRESS');
           return <CustomHeader title={title} />;
         },
       })}
@@ -63,28 +71,28 @@ export default function TabsLayout() {
       <Tabs.Screen 
         name="index" 
         options={{ 
-          title: 'Home',
-          headerShown: true,
+          title: 'HOME',
+          headerShown: false,
         }} 
       />
       <Tabs.Screen 
         name="chat" 
         options={{ 
-          title: 'Chat',
+          title: 'AI COACH',
           headerShown: true,
         }} 
       />
       <Tabs.Screen 
         name="exercises" 
         options={{ 
-          title: 'Exercises',
+          title: 'EXERCISES',
           headerShown: true,
         }} 
       />
       <Tabs.Screen 
         name="progress" 
         options={{ 
-          title: 'Progress',
+          title: 'PROGRESS',
           headerShown: true,
         }} 
       />
@@ -96,12 +104,25 @@ const styles = StyleSheet.create({
   header: {
     padding: 20,
     paddingTop: 50,
-    // borderBottomLeftRadius: 20,
-    // borderBottomRightRadius: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: '#00ff88',
+  },
+  headerContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerIcon: {
+    width: 30,
+    height: 30,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '800',
     color: '#fff',
+    letterSpacing: 1,
   },
 });
