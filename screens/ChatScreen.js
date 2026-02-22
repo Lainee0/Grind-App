@@ -2,14 +2,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useCallback, useEffect, useState } from 'react';
 import {
-  SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
-import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
+import { Bubble, Composer, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat';
 
 // Comprehensive exercise and fitness database
 const fitnessDatabase = {
@@ -360,72 +360,66 @@ const fitnessDatabase = {
 const generateResponse = (message) => {
   const lowerMessage = message.toLowerCase();
 
-  // Weight Loss Questions
   if (lowerMessage.includes('lose weight') || lowerMessage.includes('fat loss') || 
       lowerMessage.includes('burn fat') || lowerMessage.includes('get lean')) {
     return {
-      text: "🎯 **Weight Loss Focus**: Here are the most effective workouts and tips:",
+      text: "🔥 **FAT SHREDDING GUIDE** 🔥\n\nHere's how to torch that fat:",
       recommendations: fitnessDatabase.weightLoss,
-      quickTip: "🔥 **Pro Tip**: Combine strength training with cardio for best results. Diet is 70% of the equation!",
+      quickTip: "🔥 **PRO TIP**: Combine heavy lifts with HIIT. Diet is 80% of the equation!",
       category: "weightLoss"
     };
   }
 
-  // Muscle Building
   if (lowerMessage.includes('build muscle') || lowerMessage.includes('get bigger') || 
       lowerMessage.includes('mass') || lowerMessage.includes('bulk') ||
       lowerMessage.includes('strength')) {
     return {
-      text: "💪 **Muscle Building Guide**: Here's how to pack on quality mass:",
+      text: "💪 **BEAST MODE ACTIVATED** 💪\n\nMuscle building protocol:",
       recommendations: fitnessDatabase.muscleBuilding,
-      quickTip: "🏋️ **Key Principle**: Progressive overload - aim to add weight or reps each week!",
+      quickTip: "🏋️ **IRON LAW**: Progressive overload - add weight or reps every week!",
       category: "muscleBuilding"
     };
   }
 
-  // Beginner Questions
   if (lowerMessage.includes('beginner') || lowerMessage.includes('new to gym') || 
       lowerMessage.includes('first time') || lowerMessage.includes('where to start') ||
       lowerMessage.includes('noob')) {
     return {
-      text: "🌱 **Welcome to the Gym!** Here's everything you need to know as a beginner:",
+      text: "🌱 **WELCOME TO THE GRIND** 🌱\n\nYour journey starts here:",
       recommendations: fitnessDatabase.beginner,
-      quickTip: "🎯 **Start Simple**: Master form first, then add weight. Everyone was once a beginner!",
+      quickTip: "🎯 **GOLDEN RULE**: Master form first. Everyone starts somewhere!",
       category: "beginner"
     };
   }
 
-  // Nutrition Questions
   if (lowerMessage.includes('eat') || lowerMessage.includes('diet') || 
       lowerMessage.includes('food') || lowerMessage.includes('meal') ||
       lowerMessage.includes('nutrition') || lowerMessage.includes('what to eat')) {
     return {
-      text: "🥗 **Nutrition Guide**: Fuel your gains with proper nutrition:",
+      text: "🥩 **FUEL FOR THE BEAST** 🥩\n\nNutrition to maximize gains:",
       recommendations: fitnessDatabase.nutrition,
-      quickTip: "📊 **Macro Tip**: Protein: 1.6-2.2g/kg, Fats: 0.5-1g/kg, rest carbs",
+      quickTip: "📊 **MACRO MATH**: 2g protein/kg bodyweight. Carbs = energy for heavy lifts!",
       category: "nutrition"
     };
   }
 
-  // Supplements
   if (lowerMessage.includes('supplement') || lowerMessage.includes('protein powder') || 
       lowerMessage.includes('creatine') || lowerMessage.includes('pre workout') ||
       lowerMessage.includes('whey')) {
     return {
-      text: "🧪 **Supplement Guide**: What actually works and what's optional:",
+      text: "🧪 **SUPPLEMENT SCIENCE** 🧪\n\nWhat actually works:",
       recommendations: fitnessDatabase.supplements,
-      quickTip: "⚠️ **Remember**: Supplements supplement your diet, they don't replace it!",
+      quickTip: "⚠️ **REAL TALK**: Supplements SUPPLEMENT real food. They're not magic!",
       category: "supplements"
     };
   }
 
-  // Specific Body Parts
   if (lowerMessage.includes('glutes') || lowerMessage.includes('booty') || 
       lowerMessage.includes('butt') || lowerMessage.includes('glute')) {
     return {
-      text: "🍑 **Glute Building Guide**: Here's how to build stronger glutes:",
+      text: "🍑 **GLUTE GAINS** 🍑\n\nBuild that shelf:",
       recommendations: fitnessDatabase.specificGoals.filter(g => g.id === 17),
-      quickTip: "🔥 **Activation Tip**: Squeeze at the top of each movement for 2 seconds!",
+      quickTip: "🔥 **ACTIVATION**: Squeeze at the top for 2 seconds. Mind-muscle connection!",
       category: "specificGoals"
     };
   }
@@ -433,9 +427,9 @@ const generateResponse = (message) => {
   if (lowerMessage.includes('abs') || lowerMessage.includes('six pack') || 
       lowerMessage.includes('core') || lowerMessage.includes('stomach')) {
     return {
-      text: "💪 **Abs Guide**: Truth about getting a six pack:",
+      text: "⚡ **CORE COMMANDMENTS** ⚡\n\nThe truth about abs:",
       recommendations: fitnessDatabase.specificGoals.filter(g => g.id === 18),
-      quickTip: "🥗 **Reality Check**: Abs are made in the kitchen, revealed in the gym!",
+      quickTip: "🥗 **REALITY CHECK**: Abs are revealed in the kitchen, built in the gym!",
       category: "specificGoals"
     };
   }
@@ -443,110 +437,91 @@ const generateResponse = (message) => {
   if (lowerMessage.includes('arms') || lowerMessage.includes('bicep') || 
       lowerMessage.includes('tricep') || lowerMessage.includes('bigger arms')) {
     return {
-      text: "💪 **Arm Building Guide**: Build bigger, stronger arms:",
+      text: "💪 **GUN SHOW** 💪\n\nBuild those cannons:",
       recommendations: fitnessDatabase.specificGoals.filter(g => g.id === 19),
-      quickTip: "📏 **Arm Size Tip**: Triceps make up 2/3 of arm mass - don't neglect them!",
+      quickTip: "📏 **SIZE SECRET**: Triceps = 2/3 of arm mass. Don't neglect them!",
       category: "specificGoals"
     };
   }
 
-  // Recovery & Injury
   if (lowerMessage.includes('recovery') || lowerMessage.includes('sore') || 
       lowerMessage.includes('rest day') || lowerMessage.includes('injury') ||
       lowerMessage.includes('pain')) {
     return {
-      text: "🔄 **Recovery & Injury Prevention**: Essential for long-term progress:",
+      text: "🔄 **RECOVERY IS GAINS** 🔄\n\nRest like a pro:",
       recommendations: fitnessDatabase.recovery,
-      quickTip: "😴 **Sleep is #1**: 7-9 hours of quality sleep = better gains!",
+      quickTip: "😴 **SLEEP = GROWTH**: 8 hours minimum. This is when muscles repair!",
       category: "recovery"
     };
   }
 
-  // Workout Splits
   if (lowerMessage.includes('split') || lowerMessage.includes('workout plan') || 
       lowerMessage.includes('program') || lowerMessage.includes('routine') ||
       lowerMessage.includes('schedule')) {
     return {
-      text: "📅 **Workout Splits**: Choose what fits your schedule and goals:",
+      text: "📅 **TRAINING SPLITS** 📅\n\nPick your weapon:",
       recommendations: fitnessDatabase.workoutSplits,
-      quickTip: "🔄 **Pro Tip**: Pick a split you can stick to consistently!",
+      quickTip: "🔄 **CONSISTENCY > PERFECTION**: Pick a split you can stick to!",
       category: "workoutSplits"
     };
   }
 
-  // Cardio Questions
   if (lowerMessage.includes('cardio') || lowerMessage.includes('running') || 
       lowerMessage.includes('hiit') || lowerMessage.includes('stairmaster')) {
     return {
-      text: "🏃 **Cardio Guide**: Different types for different goals:",
+      text: "🏃 **CARDIO KILLER** 🏃\n\nConditioning for warriors:",
       recommendations: fitnessDatabase.cardio,
-      quickTip: "⚖️ **Balance Tip**: Don't overdo cardio if trying to build muscle",
+      quickTip: "⚡ **BALANCE**: Don't overdo cardio if strength is your goal",
       category: "cardio"
     };
   }
 
-  // Motivation & Mindset
   if (lowerMessage.includes('motivation') || lowerMessage.includes('tired') || 
       lowerMessage.includes('give up') || lowerMessage.includes('discouraged') ||
       lowerMessage.includes('plateau')) {
     return {
-      text: "💫 **Motivation & Mindset**: Stay on track with these tips:",
+      text: "💫 **MINDSET OF A CHAMPION** 💫\n\nStay hungry:",
       recommendations: fitnessDatabase.motivation,
-      quickTip: "🌟 **Remember**: Progress, not perfection. Small steps lead to big changes!",
+      quickTip: "🌟 **REMEMBER**: Progress over perfection. Small wins add up!",
       category: "motivation"
     };
   }
 
-  // Gym Etiquette
-  if (lowerMessage.includes('etiquette') || lowerMessage.includes('gym rules') || 
-      lowerMessage.includes('proper gym') || lowerMessage.includes('gym culture')) {
-    return {
-      text: "🤝 **Gym Etiquette 101**: Be a respectful gym member:",
-      recommendations: fitnessDatabase.beginner.filter(b => b.id === 8),
-      quickTip: "🧹 **Golden Rule**: Always wipe equipment and rerack weights!",
-      category: "beginner"
-    };
-  }
-
-  // Greeting
   if (lowerMessage.includes('hi') || lowerMessage.includes('hello') || 
-      lowerMessage.includes('hey')) {
+      lowerMessage.includes('hey') || lowerMessage.includes('sup')) {
     return {
-      text: "👋 **Welcome to Gym Assistant!** I can help you with:\n\n" +
-            "💪 Building muscle\n" +
-            "🔥 Losing weight\n" +
-            "🥗 Nutrition advice\n" +
-            "📅 Workout plans\n" +
-            "🧪 Supplements\n" +
-            "🔄 Recovery tips\n" +
-            "🤝 Gym etiquette\n\n" +
-            "What's your fitness goal today?",
+      text: "👋 **READY TO GRIND?** 👋\n\nI'm your AI fitness coach. Ask me about:\n\n" +
+            "💪 BUILDING MUSCLE\n" +
+            "🔥 SHREDDING FAT\n" +
+            "🥗 NUTRITION\n" +
+            "📅 WORKOUT PLANS\n" +
+            "🧪 SUPPLEMENTS\n" +
+            "🔄 RECOVERY\n\n" +
+            "WHAT'S YOUR GOAL TODAY?",
     };
   }
 
-  // Default Response
   return {
-    text: "💪 **How can I help with your fitness journey?** Try asking about:\n\n" +
-          "• Weight loss & fat burning\n" +
-          "• Building muscle & strength\n" +
-          "• Beginner guides\n" +
-          "• Nutrition & meal prep\n" +
-          "• Supplements (protein, creatine)\n" +
-          "• Specific body parts (abs, glutes, arms)\n" +
-          "• Workout splits & programs\n" +
-          "• Cardio (HIIT, LISS)\n" +
-          "• Recovery & injury prevention\n" +
-          "• Gym etiquette\n" +
-          "• Motivation & mindset",
+    text: "💪 **HOW CAN I HELP?** 💪\n\nTry asking about:\n\n" +
+          "• WEIGHT LOSS & FAT BURN\n" +
+          "• BUILDING MUSCLE\n" +
+          "• BEGINNER GUIDES\n" +
+          "• NUTRITION & MEAL PREP\n" +
+          "• SUPPLEMENTS\n" +
+          "• SPECIFIC BODY PARTS\n" +
+          "• WORKOUT SPLITS\n" +
+          "• CARDIO\n" +
+          "• RECOVERY\n" +
+          "• MOTIVATION",
   };
 };
 
 const BotAvatar = () => (
   <LinearGradient
-    colors={['#2ecc71', '#27ae60']}
+    colors={['#00ff88', '#00cc66']}
     style={styles.botAvatar}
   >
-    <MaterialIcons name="fitness-center" size={20} color="#fff" />
+    <MaterialIcons name="fitness-center" size={24} color="#0a0a0a" />
   </LinearGradient>
 );
 
@@ -557,11 +532,12 @@ export default function ChatScreen() {
     setMessages([
       {
         _id: 1,
-        text: "👋 **Welcome to Gym Assistant!** I'm here to help with all your fitness questions - from building muscle to losing weight, nutrition advice to workout plans. What's your fitness goal today?",
+        // text: "👋 **READY TO GRIND?** 👋\n\nI'm your AI fitness coach. Ask me about:\n\n💪 BUILDING MUSCLE\n🔥 SHREDDING FAT\n🥗 NUTRITION\n📅 WORKOUT PLANS\n🧪 SUPPLEMENTS\n🔄 RECOVERY\n\n**WHAT'S YOUR GOAL TODAY?**",
+        text: "👋 **READY TO GRIND?** 👋\n\nI'm your AI fitness coach. Ask me about:\n\n💪 BUILDING MUSCLE\n🔥 SHREDDING FAT\n🥗 NUTRITION\n🧪 SUPPLEMENTS\n\n**WHAT'S YOUR GOAL TODAY?**",
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'Gym Assistant',
+          name: 'FITNESS COACH',
           avatar: BotAvatar,
         },
       },
@@ -581,7 +557,7 @@ export default function ChatScreen() {
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'Gym Assistant',
+          name: 'FITNESS COACH',
           avatar: BotAvatar,
         },
       };
@@ -591,19 +567,7 @@ export default function ChatScreen() {
       if (response.recommendations) {
         response.recommendations.forEach((rec, index) => {
           setTimeout(() => {
-            let messageText = '';
-            
-            if (rec.rules || rec.tips) {
-              if (rec.rules) {
-                messageText = `**${rec.name}**\n\n` + rec.rules.map(rule => `• ${rule}`).join('\n');
-              } else if (Array.isArray(rec.tips)) {
-                messageText = `**${rec.name}**\n\n` + rec.tips.map(tip => `• ${tip}`).join('\n');
-              } else {
-                messageText = formatExerciseMessage(rec);
-              }
-            } else {
-              messageText = formatExerciseMessage(rec);
-            }
+            let messageText = formatExerciseMessage(rec);
             
             const recMessage = {
               _id: Math.round(Math.random() * 1000000),
@@ -611,46 +575,42 @@ export default function ChatScreen() {
               createdAt: new Date(),
               user: {
                 _id: 2,
-                name: 'Gym Assistant',
+                name: 'FITNESS COACH',
               },
             };
             setMessages(previousMessages => GiftedChat.append(previousMessages, [recMessage]));
-          }, index * 500);
+          }, index * 600);
         });
         
         setTimeout(() => {
           const tipMessage = {
             _id: Math.round(Math.random() * 1000000),
-            text: `💡 **Quick Tip:** ${response.quickTip}`,
+            text: `⚡ **PRO TIP:** ${response.quickTip}`,
             createdAt: new Date(),
             user: {
               _id: 2,
-              name: 'Gym Assistant',
+              name: 'FITNESS COACH',
             },
           };
           setMessages(previousMessages => GiftedChat.append(previousMessages, [tipMessage]));
-        }, response.recommendations.length * 500 + 500);
+        }, response.recommendations.length * 600 + 600);
       }
-    }, 1000);
+    }, 800);
   }, []);
 
   const formatExerciseMessage = (rec) => {
     let message = `**${rec.name}**\n`;
     
-    if (rec.duration) message += `⏱️ Duration: ${rec.duration}\n`;
-    if (rec.sets) message += `💪 Sets: ${rec.sets}\n`;
-    if (rec.intensity) message += `🔥 Intensity: ${rec.intensity}\n`;
-    if (rec.benefits) message += `✅ Benefits: ${rec.benefits}\n`;
-    if (rec.calories) message += `🔥 Calories: ${rec.calories}\n`;
-    if (rec.frequency) message += `📅 Frequency: ${rec.frequency}\n`;
-    if (rec.timing) message += `⏰ Timing: ${rec.timing}\n`;
-    if (rec.exercises) message += `🏋️ Exercises: ${rec.exercises.join(', ')}\n`;
-    if (rec.options) message += `📋 Options: ${rec.options.join(', ')}\n`;
-    if (rec.methods) message += `📊 Methods: ${rec.methods.join(', ')}\n`;
-    if (rec.ingredients) message += `🧪 Ingredients: ${rec.ingredients.join(', ')}\n`;
-    if (rec.caution) message += `⚠️ Caution: ${rec.caution}\n`;
-    if (rec.reality) message += `💭 Reality: ${rec.reality}\n`;
-    if (rec.commonMistakes) message += `❌ Common Mistakes: ${rec.commonMistakes}\n`;
+    if (rec.duration) message += `⏱️ DURATION: ${rec.duration}\n`;
+    if (rec.sets) message += `💪 SETS: ${rec.sets}\n`;
+    if (rec.intensity) message += `🔥 INTENSITY: ${rec.intensity}\n`;
+    if (rec.benefits) message += `✅ BENEFITS: ${rec.benefits}\n`;
+    if (rec.calories) message += `🔥 CALORIES: ${rec.calories}\n`;
+    if (rec.frequency) message += `📅 FREQUENCY: ${rec.frequency}\n`;
+    if (rec.timing) message += `⏰ TIMING: ${rec.timing}\n`;
+    if (rec.exercises) message += `🏋️ EXERCISES: ${rec.exercises.join(', ')}\n`;
+    if (rec.options) message += `📋 OPTIONS: ${rec.options.join(', ')}\n`;
+    if (rec.tips && !Array.isArray(rec.tips)) message += `💡 TIP: ${rec.tips}\n`;
     
     return message;
   };
@@ -661,18 +621,20 @@ export default function ChatScreen() {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: '#2ecc71',
+            backgroundColor: '#00ff88',
           },
           left: {
-            backgroundColor: '#f0f0f0',
+            backgroundColor: '#1a1a1a',
           },
         }}
         textStyle={{
           right: {
-            color: '#fff',
+            color: '#0a0a0a',
+            fontWeight: '500',
           },
           left: {
-            color: '#000',
+            color: '#fff',
+            fontWeight: '500',
           },
         }}
       />
@@ -682,15 +644,63 @@ export default function ChatScreen() {
   const renderSend = (props) => {
     return (
       <Send {...props}>
-        <View style={styles.sendingContainer}>
-          <MaterialIcons name="send" size={24} color="#2ecc71" />
-        </View>
+        <LinearGradient colors={['#00ff88', '#00cc66']} style={styles.sendButton}>
+          <MaterialIcons name="send" size={20} color="#0a0a0a" />
+        </LinearGradient>
       </Send>
     );
   };
 
+  const renderInputToolbar = (props) => {
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={styles.inputToolbar}
+        primaryStyle={styles.inputPrimary}
+      />
+    );
+  };
+
+  const renderComposer = (props) => {
+    return (
+      <Composer
+        {...props}
+        textInputStyle={styles.composer}
+        placeholder="ASK YOUR COACH..."
+        placeholderTextColor="#666"
+      />
+    );
+  };
+
+  const quickQuestions = [
+    { icon: 'whatshot', text: 'LOSE FAT', query: 'How do I lose weight and burn fat?' },
+    { icon: 'fitness-center', text: 'BUILD MUSCLE', query: 'How do I build muscle and get bigger?' },
+    { icon: 'star', text: 'BEGINNER', query: "I'm a beginner, where should I start?" },
+    { icon: 'restaurant', text: 'NUTRITION', query: 'What should I eat before and after workout?' },
+    { icon: 'science', text: 'SUPPLEMENTS', query: 'Do I need protein powder and supplements?' },
+    { icon: 'accessibility', text: 'GLUTES', query: 'How do I grow my glutes?' },
+    { icon: 'fitness-center', text: 'ABS', query: 'How do I get six pack abs?' },
+    { icon: 'sports-mma', text: 'ARMS', query: 'How do I get bigger arms?' },
+    { icon: 'calendar-today', text: 'SPLITS', query: "What's the best workout split?" },
+    { icon: 'directions-run', text: 'CARDIO', query: 'How much cardio should I do?' },
+  ];
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#0a0a0a" />
+      
+      {/* <LinearGradient colors={['#0a0a0a', '#1a1a1a']} style={styles.header}>
+        <View style={styles.headerContent}>
+          <LinearGradient colors={['#00ff88', '#00cc66']} style={styles.headerIcon}>
+            <MaterialIcons name="fitness-center" size={24} color="#0a0a0a" />
+          </LinearGradient>
+          <View>
+            <Text style={styles.headerTitle}>FITNESS COACH</Text>
+            <Text style={styles.headerSubtitle}>ALWAYS ONLINE • READY TO GRIND</Text>
+          </View>
+        </View>
+      </LinearGradient> */}
+
       <View style={styles.chatContainer}>
         <GiftedChat
           messages={messages}
@@ -700,273 +710,151 @@ export default function ChatScreen() {
           }}
           renderBubble={renderBubble}
           renderSend={renderSend}
+          renderInputToolbar={renderInputToolbar}
+          renderComposer={renderComposer}
           alwaysShowSend
           scrollToBottom
           renderAvatar={null}
           messagesContainerStyle={styles.messagesContainer}
-          placeholder="Ask about workouts, nutrition, supplements..."
+          placeholder="ASK YOUR COACH..."
+          minInputToolbarHeight={70}
         />
       </View>
       
       <View style={styles.quickActions}>
-        <Text style={styles.quickActionsTitle}>📋 Quick Questions:</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {/* Category 1: Goals */}
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I lose weight and burn fat?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="whatshot" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Weight Loss</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I build muscle and get bigger?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="fitness-center" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Build Muscle</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "I'm a beginner, where should I start?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="star" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Beginner Guide</Text>
-          </TouchableOpacity>
-
-          {/* Category 2: Nutrition */}
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "What should I eat before and after workout?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="restaurant" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Pre/Post Meals</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "Do I need protein powder and supplements?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="science" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Supplements</Text>
-          </TouchableOpacity>
-
-          {/* Category 3: Body Parts */}
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I grow my glutes?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="accessibility" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Build Glutes</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I get six pack abs?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="fitness-center" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Six Pack Abs</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I get bigger arms?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="sports-mma" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Bigger Arms</Text>
-          </TouchableOpacity>
-
-          {/* Category 4: Workout Structure */}
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "What's the best workout split?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="calendar-today" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Workout Split</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How much cardio should I do?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="directions-run" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Cardio Guide</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "HIIT or LISS cardio?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="speed" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>HIIT vs LISS</Text>
-          </TouchableOpacity>
-
-          {/* Category 5: Recovery & Mindset */}
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I recover faster?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="healing" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Recovery Tips</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I stay motivated?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="emoji-emotions" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Motivation</Text>
-          </TouchableOpacity>
-
-          {/* Category 6: Gym Culture */}
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "What's proper gym etiquette?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="handshake" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Gym Etiquette</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.quickActionButton}
-            onPress={() => onSend([{
-              _id: Math.random(),
-              text: "How do I avoid injuries?",
-              createdAt: new Date(),
-              user: { _id: 1 }
-            }])}
-          >
-            <MaterialIcons name="security" size={20} color="#2ecc71" />
-            <Text style={styles.quickActionText}>Injury Prevention</Text>
-          </TouchableOpacity>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.quickActionsContent}
+        >
+          {quickQuestions.map((item, index) => (
+            <TouchableOpacity 
+              key={index}
+              style={styles.quickActionCard}
+              onPress={() => onSend([{
+                _id: Math.random(),
+                text: item.query,
+                createdAt: new Date(),
+                user: { _id: 1 }
+              }])}
+            >
+              <LinearGradient colors={['#1a1a1a', '#0a0a0a']} style={styles.quickActionGradient}>
+                <MaterialIcons name={item.icon} size={20} color="#00ff88" />
+                <Text style={styles.quickActionCardText}>{item.text}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          ))}
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0a0a0a',
+  },
+  header: {
+    paddingTop: 50,
+    paddingBottom: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#00ff88',
+  },
+  headerContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#fff',
+    letterSpacing: 1,
+  },
+  headerSubtitle: {
+    fontSize: 10,
+    color: '#00ff88',
+    marginTop: 2,
+    fontWeight: '600',
   },
   chatContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0a0a0a',
   },
   messagesContainer: {
-    paddingBottom: 10,
+    backgroundColor: '#0a0a0a',
   },
-  sendingContainer: {
+  inputToolbar: {
+    backgroundColor: '#1a1a1a',
+    borderTopWidth: 1,
+    borderTopColor: '#333',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  inputPrimary: {
+    alignItems: 'center',
+  },
+  composer: {
+    backgroundColor: '#1a1a1a',
+    color: '#fff',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    marginRight: 8,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  sendButton: {
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
     marginBottom: 5,
   },
   botAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
   quickActions: {
-    padding: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#0a0a0a',
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: '#333',
+    paddingVertical: 15,
   },
-  quickActionsTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#666',
-    marginBottom: 10,
+  quickActionsContent: {
+    paddingHorizontal: 15,
   },
-  quickActionButton: {
+  quickActionCard: {
+    marginRight: 10,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  quickActionGradient: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
     paddingHorizontal: 15,
     paddingVertical: 10,
-    borderRadius: 20,
-    marginRight: 10,
+    borderWidth: 1,
+    borderColor: '#333',
   },
-  quickActionText: {
-    marginLeft: 5,
-    color: '#2ecc71',
-    fontWeight: '500',
+  quickActionCardText: {
+    marginLeft: 8,
+    color: '#fff',
+    fontWeight: '700',
     fontSize: 12,
+    letterSpacing: 0.5,
   },
 });
